@@ -26,7 +26,7 @@ impl fmt::Debug for Amount {
 
 impl fmt::Display for Amount {
 	fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-		if self.value > 0 {
+		if self.value >= 0 {
 			let div = if self.value % 100 != 0 { "." } else { ".0" };
 			write!(f, "{}{}{}{}", self.symbol, self.value / 100, div, self.value % 100)
 		} else {
@@ -59,5 +59,8 @@ mod tests {
 
 		let x = Amount::new(Unit::USD, -123456);
 		assert_eq!("-$1234.56", format!("{}",x));
+
+		let x = Amount::new(Unit::USD, 0);
+		assert_eq!("$0.00", format!("{}",x));
 	}
 }
